@@ -1,0 +1,78 @@
+{% extends 'freshstore/base.html' %}
+{% block title %}
+{{ goods_obj.goods_name }}详情页
+{% endblock %}
+
+
+{% block styles %}
+
+    <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css">
+{% endblock %}
+
+{% block content %}
+    <form action="/fresh/goods_edit/" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+        <input type="text" style="display: none" name="id" value="{{ goods_obj.id }}">
+ <table class="table">
+        <tr>
+            <td rowspan="3">
+                <img style="width: 200px;height: 200px;margin-bottom: 4px" src="/media/{{ goods_obj.goods_image }}">
+                <input type="file" class="form-control" name="goods_image" value="">
+            </td>
+            <th>
+                商品名称
+            </th>
+            <td colspan="3">
+
+                <input type="text" class="form-control" name="goods_name" value="{{ goods_obj.goods_name }}">
+            </td>
+        </tr>
+        <tr>
+            <th>
+                商品价格
+            </th>
+            <td>
+                <input type="text" class="form-control" name="goods_price"  value=" {{ goods_obj.goods_price }}">
+
+            </td>
+
+            <th>
+                商品库存
+            </th>
+            <td>
+                 <input type="text" class="form-control" name="goods_number" value=" {{ goods_obj.goods_number }}">
+
+            </td>
+        </tr>
+        <tr>
+            <th>
+                生产日期
+            </th>
+            <td>
+                <input type="text" class="form-control" name="goods_date" value=" {{goods_obj.goods_date|date:'Y-m-d'}}">
+
+            </td>
+
+            <th>
+                保质期
+            </th>
+            <td>
+                 <input type="text" class="form-control" name="goods_safeDate" value="  {{ goods_obj.goods_safeDate }}">
+
+            </td>
+        </tr>
+        <tr>
+            <th colspan="5" style="text-align: center;">商品描述</th>
+        </tr>
+        </tr>
+            <td colspan="5"><textarea name="goods_descirption" id="" cols="30" rows="10">{{ goods_obj.goods_descirption|safe }}</textarea>   </td>
+        </tr>
+    </table>
+        <input type="submit" class="btn btn-default btn-lg btn-block" value="保存">
+        </form>
+
+    <script src="/static/ckeditor/ckeditor/ckeditor.js"></script>
+    <script>
+    CKEDITOR.replace('goods_descirption',{uiColor:"#9AB8F3"})
+    </script>
+{% endblock %}

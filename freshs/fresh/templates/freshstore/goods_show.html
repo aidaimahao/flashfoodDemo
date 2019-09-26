@@ -1,0 +1,92 @@
+{% extends 'freshstore/base.html' %}
+{% block title %}
+上架商品页面
+{% endblock %}
+{% block styles %}
+    <link rel="stylesheet" href="/static/mystyle.css">
+{% endblock %}
+{% block name %}
+{{ request.session.username }}
+{% endblock %}
+{% block pic %}
+{{ request.session.pic }}
+
+{% endblock %}
+{% block content %}
+
+<div class="card shadow mb-4">
+            <div class="card-header py-3">
+              <h6 class="m-0 font-weight-bold text-primary">商品信息表</h6>
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                    <div class="row">
+                    <div class="col-sm-12">
+                        <table class="table table-bordered dataTable" id="dataTable" role="grid" aria-describedby="dataTable_info" style="width: 100%;  text-align: center; " width="100%" cellspacing="0">
+                  <thead>
+                    <tr role="row">
+                        <th class="sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" style="width: 196.2px;" aria-sort="ascending" aria-label="Name: activate to sort column descending">商品名称</th>
+                        <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" style="width: 296.2px;" aria-label="Position: activate to sort column ascending">商品价格</th>
+
+{#                        <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" style="width: 120px;" aria-label="Salary: activate to sort column ascending">商品店铺</th>#}
+                        <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" style="width: 120px;" aria-label="Salary: activate to sort column ascending">商品图片</th>
+                        <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" style="width: 66.2px;" aria-label="Age: activate to sort column ascending">商品描述</th>
+                        <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" style="width: 66.2px;" aria-label="Age: activate to sort column ascending">操作</th>
+                    </tr>
+                  </thead>
+                  <tfoot>
+{#                    <tr><th rowspan="1" colspan="1">Name</th><th rowspan="1" colspan="1">Position</th><th rowspan="1" colspan="1">Office</th><th rowspan="1" colspan="1">Age</th><th rowspan="1" colspan="1">Start date</th><th rowspan="1" colspan="1">Salary</th></tr>#}
+                  </tfoot>
+                  <tbody>
+                      {% for goods in page %}
+                          <tr role="row" class="odd">
+                              <td class="sorting_12"><a href="/fresh/goods_detail/?id={{ goods.id }}">{{ goods.goods_name }}</a></td>
+                              <td class="sorting_12">{{ goods.goods_price }}</td>
+{#                              <td>{{ goods.store.store_name}}</td>#}
+                              <td class="sorting_12"><img style="width: 100px;height: 100px;" src="/media/{{ goods.goods_image }}" alt=""></td>
+                              <td class="sorting_12">{{ goods.goods_descirption }}</td>
+                              <td class="sorting_12">
+                                  {% ifequal state "up" %}
+                                    <a class=" btn btn-warning data" href="/fresh/goods_set/down/?id={{ goods.id }}">下架</a>
+                                  {% else %}
+                                   <a class=" btn btn-warning" href="/fresh/goods_set/up/?id={{ goods.id }}">上架</a>
+                                  {% endifequal %}
+                                    <a class=" btn btn-danger" href="/fresh/goods_set/delete/?id={{ goods.id }}">删除</a>
+                              </td>
+                          </tr>
+                      {% endfor %}
+
+
+                  </tbody>
+                </table>
+                    </div>
+                </div>
+                    <div class="row">
+                        <div class="col-sm-12 col-md-5">
+                            <div class="dataTables_info" id="dataTable_info" role="status" aria-live="polite">Showing 1 to 4 of {{ goods_count }} entries</div>
+                        </div>
+                        <div class="col-sm-12 col-md-7">
+                            <div class="dataTables_paginate paging_simple_numbers" id="dataTable_paginate">
+                                <ul class="pagination">
+                                    <li class="paginate_button page-item previous " id="dataTable_previous">
+                                        <a href="#" aria-controls="dataTable" tabindex="0" class="page-link">Previous</a>
+                                        </li>
+                                    {% for foo in page_range %}
+                                           <li class="paginate_button page-item">
+                                                <a href="?keyword={{ keyword }}&page_num={{ foo }}" aria-controls="dataTable" data-dt-idx="{{ foo }}" tabindex="0" class="page-link">{{ foo }}</a>
+                                           </li>
+                                    {% endfor %}
+
+                                    <li class="paginate_button page-item next" id="dataTable_next">
+                                        <a href="#" aria-controls="dataTable"  tabindex="0" class="page-link">Next</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+              </div>
+            </div>
+          </div>
+{% endblock %}

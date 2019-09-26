@@ -1,0 +1,166 @@
+{% extends 'freshstore/base.html' %}
+{% block title %}
+商品类型页面
+{% endblock %}
+{% block styles %}
+    <link rel="stylesheet" href="/static/mystyle.css">
+{% endblock %}
+{% block name %}
+{{ request.session.username }}
+{% endblock %}
+{% block pic %}
+{{ request.session.pic }}
+
+{% endblock %}
+{% block content %}
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+              <h6 class="m-0 font-weight-bold text-primary">商品类型表</h6>
+        </div>
+              <div class="card-body">
+                    <div class="table-responsive">
+                        <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                    <div class="row">
+                    <div class="col-sm-12">
+                        <table class="table table-bordered dataTable" id="dataTable" role="grid" aria-describedby="dataTable_info" style="width: 100%;  text-align: center; " width="100%" cellspacing="0">
+                                <thead>
+                                        <tr role="row">
+                                            <th class="sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" style="width: 196.2px;" aria-sort="ascending" aria-label="Name: activate to sort column descending">商品类型名称</th>
+                                            <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" style="width: 296.2px;" aria-label="Position: activate to sort column ascending">商品类型介绍价格</th>
+                                            <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" style="width: 120px;" aria-label="Salary: activate to sort column ascending">商品类型图片</th>
+                                            <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" style="width: 120px;" aria-label="Salary: activate to sort column ascending">商品类型操作</th>
+                                         </tr>
+                                </thead>
+
+                                 <!-- 按钮触发模态框 -->
+                                <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">添加类型</button>
+                                <!-- 模态框（Modal） -->
+                                <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                <h4 class="modal-title" id="myModalLabel">添加商品类型</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form action="/fresh/goods_type_add/" method="post" enctype="multipart/form-data">
+                                                    {% csrf_token %}
+                                                     <div class="form-group">
+                                                            <label for="exampleInputEmail1">商品类型名称</label>
+                                                            <input type="text" class="form-control" name="type_name" id="type_name" placeholder="名称">
+                                                      </div>
+                                                     <div class="form-group">
+                                                            <label for="exampleInputPassword1">商品类型介绍</label>
+                                                            <input type="text" class="form-control" name="type_description" id="exampleInputPassword1" placeholder="介绍">
+                                                     </div>
+                                                     <div class="form-group">
+                                                            <label for="exampleInputPassword1">商品类型图片</label>
+                                                            <input type="file" class="form-control"  name="type_img" id="exampleInputPassword1" placeholder="图片">
+                                                      </div>
+
+                                                     <input type="submit" class="btn btn-primary" value="提交">
+
+                                                </form>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                            </div>
+                                        </div><!-- /.modal-content -->
+                                    </div><!-- /.modal -->
+                                </div>
+
+                                  <tfoot>
+                {#                    <tr><th rowspan="1" colspan="1">Name</th><th rowspan="1" colspan="1">Position</th><th rowspan="1" colspan="1">Office</th><th rowspan="1" colspan="1">Age</th><th rowspan="1" colspan="1">Start date</th><th rowspan="1" colspan="1">Salary</th></tr>#}
+                                  </tfoot>
+                  <tbody>
+
+                      {% for type in goods_type %}
+                          <tr role="row" class="odd">
+                              <td class="sorting_12">{{ type.type_name }}</td>
+                              <td class="sorting_12">{{ type.type_description }}</td>
+{#                              <td>{{ goods.store.store_name}}</td>#}
+                              <td class="sorting_12"><img style="width: 100px;height: 100px;" src="/media/{{ type.type_img }}" alt=""></td>
+                              <td class="sorting_12">
+
+
+
+{#                                   <a class=" btn btn-warning" href="/fresh/goods_type_edit/?id={{ type.id }}">修改</a>#}
+                                  <button class="btn btn-warning  " data-toggle="modal" data-target="#myModal2">修改</button>
+                                    <!-- 模态框（Modal） -->
+                                    <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                <h4 class="modal-title" id="myModalLabel">添加商品类型</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form action="/fresh/goods_type_edit/" method="post" enctype="multipart/form-data">
+                                                    {% csrf_token %}
+                                                    <input type="text" value="{{ type.id }}" style="display: none" name="id">
+                                                     <div class="form-group">
+                                                    <label for="exampleInputEmail1">商品类型名称</label>
+                                                    <input type="text" class="form-control" name="type_name" id="type_name" value="{{ type.type_name }}">
+                                                  </div>
+                                                  <div class="form-group">
+                                                    <label for="exampleInputPassword1">商品类型介绍</label>
+                                                    <input type="text" class="form-control" name="type_description" id="exampleInputPassword1" value="{{ type.type_description }}">
+                                                  </div>
+                                                 <div class="form-group">
+                                                    <label for="exampleInputPassword1">商品类型图片</label>
+                                                     <img style="width: 100px; height: 100px;" src="/media/{{ type.type_img }}" alt="">
+                                                    <input type="file" class="form-control"  name="type_img" id="exampleInputPassword1" placeholder="图片">
+                                                  </div>
+
+                                               <input type="submit" class="btn btn-primary" value="提交">
+
+                                                </form>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                {#                <button type="button" class="btn btn-primary">提交更改</button>#}
+                                            </div>
+                                        </div><!-- /.modal-content -->
+                                    </div><!-- /.modal -->
+</div>
+
+                                    <a class=" btn btn-danger" href="/fresh/goods_type_delete/?id={{ type.id }}">删除</a>
+
+                              </td>
+                          </tr>
+                      {% endfor %}
+
+
+                  </tbody>
+                </table>
+                    </div>
+                    </div>
+{#                    <div class="row">#}
+{#                        <div class="col-sm-12 col-md-5">#}
+{#                            <div class="dataTables_info" id="dataTable_info" role="status" aria-live="polite">Showing 1 to 4 of {{ goods_count }} entries</div>#}
+{#                        </div>#}
+{#                        <div class="col-sm-12 col-md-7">#}
+{#                            <div class="dataTables_paginate paging_simple_numbers" id="dataTable_paginate">#}
+{#                                <ul class="pagination">#}
+{#                                    <li class="paginate_button page-item previous " id="dataTable_previous">#}
+{#                                        <a href="#" aria-controls="dataTable" tabindex="0" class="page-link">Previous</a>#}
+{#                                        </li>#}
+{#                                    {% for foo in page_range %}#}
+{#                                           <li class="paginate_button page-item">#}
+{#                                                <a href="?keyword={{ keyword }}&page_num={{ foo }}" aria-controls="dataTable" data-dt-idx="{{ foo }}" tabindex="0" class="page-link">{{ foo }}</a>#}
+{#                                           </li>#}
+{#                                    {% endfor %}#}
+{##}
+{#                                    <li class="paginate_button page-item next" id="dataTable_next">#}
+{#                                        <a href="#" aria-controls="dataTable"  tabindex="0" class="page-link">Next</a>#}
+{#                                    </li>#}
+{#                                </ul>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </div>#}
+                </div>
+              </div>
+            </div>
+          </div>
+{% endblock %}

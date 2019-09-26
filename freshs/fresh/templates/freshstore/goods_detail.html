@@ -1,0 +1,67 @@
+{% extends 'freshstore/base.html' %}
+{% block title %}
+{{ goods_obj.goods_name }}详情页
+{% endblock %}
+
+
+{% block styles %}
+
+    <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css">
+{% endblock %}
+
+{% block content %}
+
+ <table class="table">
+        <tr>
+            <td rowspan="3">
+                <img style="width: 200px;height: 200px;" src="/media/{{ goods_obj.goods_image }}">
+            </td>
+            <th>
+                商品名称
+            </th>
+            <td colspan="3">
+                {{ goods_obj.goods_name }}
+            </td>
+        </tr>
+        <tr>
+            <th>
+                商品价格
+            </th>
+            <td>
+                {{ goods_obj.goods_price }}
+            </td>
+
+            <th>
+                商品库存
+            </th>
+            <td>
+                {{ goods_obj.goods_number }}
+            </td>
+        </tr>
+        <tr>
+            <th>
+                生产日期
+            </th>
+            <td>
+                {{ goods_obj.goods_date|date:'Y-m-d' }}
+            </td>
+
+            <th>
+                保质期
+            </th>
+            <td>
+                {{ goods_obj.goods_safeDate }}
+            </td>
+        </tr>
+        <tr>
+            <th colspan="5" style="text-align: center;">商品描述</th>
+        </tr>
+        </tr>
+            <td colspan="5">{{ goods_obj.goods_descirption|safe  }}</td>
+        </tr>
+    </table>
+    <div style="text-align: center" class="btn btn-default btn-lg btn-block">
+    <a href="/fresh/goods_edit/?id={{ goods_obj.id }}" >商品修改</a>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,34 @@
+{% extends 'freshstore/base.html' %}
+{% block content %}
+    <div class="container">
+        <form action="" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+                <input type="text" class="form-control bg-light small" name="store_name" placeholder="店铺名称">
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control bg-light small" name="store_address" placeholder="店铺地址">
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control bg-light small" name="store_description"  placeholder="店铺描述">
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control bg-light small" name="store_phone" placeholder="店铺电话">
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control bg-light small" name="store_logo"   placeholder="店铺图片">
+            </div>
+            <div class="form-group">
+{#                <input type="text" class="form-control bg-light small" name=""  placeholder="店铺类型">#}
+                <select name="store_type" id="">
+                    {% for type in type_list %}
+                                 <option value="{{ type.type_name }}"></option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <input type="submit" class="btn  btn-primary form-control " value="注册">
+            </div>
+        </form>
+    </div>
+{% endblock %}

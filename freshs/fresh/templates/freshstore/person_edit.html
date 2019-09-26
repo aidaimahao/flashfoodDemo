@@ -1,0 +1,86 @@
+{% extends 'freshstore/base.html' %}
+{% block title %}
+{{ goods_obj.goods_name }}详情页
+{% endblock %}
+
+{% block name %}
+{{ user.username }}
+{% endblock %}
+
+{% block pic %}
+{{ user.picture }}
+{% endblock %}
+
+{% block styles %}
+
+    <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css">
+{% endblock %}
+
+{% block content %}
+    <form action="/fresh/person_edit/" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+        <input type="text" style="display: none" name="id" value="{{ user.id }}">
+ <table class="table">
+        <tr>
+            <td rowspan="3">
+                <img style="width: 200px;height: 200px;" src="/media/{{ user.picture }}">
+                <br>
+                <input class="form-control" type="file" name="pic" value="">
+            </td>
+            <th>
+                姓名
+            </th>
+            <td colspan="1.5">
+                <input class="form-control" type="text" name="username" value="{{ user.username }}" disabled>
+
+            </td>
+             <th>
+                昵称
+            </th>
+            <td colspan="1.5">
+                <input class="form-control" type="text" name="nickname" value="{{ user.nickname }}"  >
+
+            </td>
+        </tr>
+
+        <tr>
+            <th>
+                电话
+            </th>
+            <td>
+                <input class="form-control" type="text" name="phone" value="{{ user.phone }}">
+
+            </td>
+
+            <th>
+                邮箱
+            </th>
+            <td>
+                <input class="form-control" type="text" name="email" value="{{ user.email }}">
+
+            </td>
+        </tr>
+        <tr>
+            <th>
+                地址
+            </th>
+            <td>
+                <input class="form-control" type="text" name="address" value="{{ user.address }}">
+
+            </td>
+
+            <th>
+                身份证
+            </th>
+            <td>
+                <input class="form-control" type="text" name="card_id" value="{{ user.card_id  }}">
+
+            </td>
+        </tr>
+
+    </table>
+    <input class="btn btn-warning btn-lg btn-block" type="submit" value="信息保存">
+        </form>
+
+
+{% endblock %}
